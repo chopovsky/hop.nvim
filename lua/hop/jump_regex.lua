@@ -25,6 +25,12 @@ local function starts_with_uppercase(s)
     return false
   end
 
+  -- take into account the case of an active key map
+  if vim.o.iminsert == 1 then
+    -- toupper and tolower support Unicode case mappings, unlike f:upper()
+    return f ~= vim.fn.tolower(f) and f == vim.fn.toupper(f)
+  end
+
   return f:upper() == f
 end
 

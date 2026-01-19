@@ -186,6 +186,14 @@ function M.get_input_pattern(prompt, maxchar, opts)
       break
     end
 
+    -- Apply keymap translation if 'iminsert' is active (keymap mode).
+    if vim.o.iminsert == 1 then
+      local mapped = vim.fn.maparg(key, 'l')  -- 'l' for lmap, used by keymaps.
+      if mapped ~= '' then
+        key = mapped  -- Use the translated char.
+      end
+    end
+
     if key == K_Esc then
       pat = nil
       break
